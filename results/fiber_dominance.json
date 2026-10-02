@@ -1,0 +1,274 @@
+[
+  {
+    "action": "1|2|3",
+    "certificates": [
+      {
+        "target": "full",
+        "corner_gaps": [
+          "0",
+          "0",
+          "0",
+          "0"
+        ]
+      }
+    ]
+  },
+  {
+    "action": "1|3|2",
+    "certificates": [
+      {
+        "target": "full",
+        "corner_gaps": [
+          "0",
+          "0",
+          "0",
+          "0"
+        ]
+      }
+    ]
+  },
+  {
+    "action": "1|2,3",
+    "certificates": [
+      {
+        "target": "deferred",
+        "corner_gaps": [
+          "0",
+          "0",
+          "0",
+          "0"
+        ]
+      }
+    ]
+  },
+  {
+    "action": "2|1|3",
+    "certificates": [
+      {
+        "target": "full",
+        "corner_gaps": [
+          "13/80",
+          "13/80",
+          "13/80",
+          "13/80"
+        ]
+      },
+      {
+        "target": "deferred",
+        "corner_gaps": [
+          "7/40",
+          "13/80",
+          "13/80",
+          "3/20"
+        ]
+      }
+    ]
+  },
+  {
+    "action": "2|3|1",
+    "certificates": [
+      {
+        "target": "full",
+        "corner_gaps": [
+          "11/48",
+          "11/48",
+          "11/48",
+          "11/48"
+        ]
+      },
+      {
+        "target": "deferred",
+        "corner_gaps": [
+          "29/120",
+          "11/48",
+          "11/48",
+          "13/60"
+        ]
+      }
+    ]
+  },
+  {
+    "action": "2|1,3",
+    "certificates": [
+      {
+        "target": "full",
+        "corner_gaps": [
+          "7/40",
+          "3/16",
+          "3/16",
+          "1/5"
+        ]
+      },
+      {
+        "target": "deferred",
+        "corner_gaps": [
+          "3/16",
+          "3/16",
+          "3/16",
+          "3/16"
+        ]
+      }
+    ]
+  },
+  {
+    "action": "3|1|2",
+    "certificates": [
+      {
+        "target": "full",
+        "corner_gaps": [
+          "13/80",
+          "13/80",
+          "13/80",
+          "13/80"
+        ]
+      },
+      {
+        "target": "deferred",
+        "corner_gaps": [
+          "7/40",
+          "13/80",
+          "13/80",
+          "3/20"
+        ]
+      }
+    ]
+  },
+  {
+    "action": "3|2|1",
+    "certificates": [
+      {
+        "target": "full",
+        "corner_gaps": [
+          "11/48",
+          "11/48",
+          "11/48",
+          "11/48"
+        ]
+      },
+      {
+        "target": "deferred",
+        "corner_gaps": [
+          "29/120",
+          "11/48",
+          "11/48",
+          "13/60"
+        ]
+      }
+    ]
+  },
+  {
+    "action": "3|1,2",
+    "certificates": [
+      {
+        "target": "full",
+        "corner_gaps": [
+          "7/40",
+          "3/16",
+          "3/16",
+          "1/5"
+        ]
+      },
+      {
+        "target": "deferred",
+        "corner_gaps": [
+          "3/16",
+          "3/16",
+          "3/16",
+          "3/16"
+        ]
+      }
+    ]
+  },
+  {
+    "action": "1,2|3",
+    "certificates": [
+      {
+        "target": "full",
+        "corner_gaps": [
+          "0",
+          "1/80",
+          "0",
+          "1/80"
+        ]
+      },
+      {
+        "target": "deferred",
+        "corner_gaps": [
+          "1/80",
+          "1/80",
+          "0",
+          "0"
+        ]
+      }
+    ]
+  },
+  {
+    "action": "1,3|2",
+    "certificates": [
+      {
+        "target": "full",
+        "corner_gaps": [
+          "0",
+          "1/80",
+          "0",
+          "1/80"
+        ]
+      },
+      {
+        "target": "deferred",
+        "corner_gaps": [
+          "1/80",
+          "1/80",
+          "0",
+          "0"
+        ]
+      }
+    ]
+  },
+  {
+    "action": "2,3|1",
+    "certificates": [
+      {
+        "target": "full",
+        "corner_gaps": [
+          "23/120",
+          "49/240",
+          "23/120",
+          "49/240"
+        ]
+      },
+      {
+        "target": "deferred",
+        "corner_gaps": [
+          "49/240",
+          "49/240",
+          "23/120",
+          "23/120"
+        ]
+      }
+    ]
+  },
+  {
+    "action": "1,2,3",
+    "certificates": [
+      {
+        "target": "full",
+        "corner_gaps": [
+          "0",
+          "3/80",
+          "0",
+          "3/80"
+        ]
+      },
+      {
+        "target": "deferred",
+        "corner_gaps": [
+          "1/80",
+          "3/80",
+          "0",
+          "1/40"
+        ]
+      }
+    ]
+  }
+]

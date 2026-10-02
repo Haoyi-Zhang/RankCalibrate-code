@@ -1,0 +1,5 @@
+b,n,actions,nonzero_top_coefficient_actions,deterministic_two_law_floor,randomized_two_law_floor
+2,3,12,3,1/72,1/144
+3,4,74,4,1/384,1/768
+4,5,540,5,1/1600,1/3200
+5,6,4682,6,1/5760,1/11520

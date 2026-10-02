@@ -1,0 +1,26 @@
+{
+  "arithmetic": "exact fractions for every scientific equality",
+  "workers": 1,
+  "unit_tests": 32,
+  "reference_audit": {
+    "entries": 65,
+    "primary_publications": 61,
+    "official_preprints": 4,
+    "full_text_or_claim_sections": 26
+  },
+  "parts": [
+    {
+      "part": "decoding",
+      "cpu_seconds": 3.413187263000001,
+      "wall_seconds": 3.421006088000013,
+      "peak_rss_kib": 99504,
+      "details": {
+        "exhaustive_optimum_comparisons": 168,
+        "larger_returned_action_checks": 6,
+        "max_n": 8
+      }
+    }
+  ],
+  "measured_cpu_seconds": 3.413187263000001,
+  "peak_rss_kib": 99504
+}

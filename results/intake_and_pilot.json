@@ -1,0 +1,22 @@
+{
+  "scientific_intake": {
+    "effective_core_limit": 4,
+    "memory_limit_gib": 4,
+    "container_memory_bytes_at_intake": 488689664,
+    "writable_space_approx_gib": 32,
+    "workers_selected": 1
+  },
+  "pilot": {
+    "cases": 14,
+    "n_range": [
+      2,
+      5
+    ],
+    "all_block_caps": true,
+    "cpu_seconds": 3.8297063179999995,
+    "wall_seconds": 3.8299415289999956,
+    "peak_rss_kib": 94888
+  },
+  "accounting_boundary": "Some early interactive exploration was not systematically metered. These measurements and runner resource reports are not an exact total development CPU account. The final included runner repeats all pilot scientific cases with stronger checks.",
+  "no_external_experiments": true
+}

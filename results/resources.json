@@ -1,0 +1,80 @@
+{
+  "arithmetic": "exact fractions for every scientific equality",
+  "workers": 1,
+  "unit_tests": 34,
+  "reference_audit": {
+    "entries": 65,
+    "primary_publications": 61,
+    "official_preprints": 4,
+    "full_text_or_claim_sections": 26
+  },
+  "parts": [
+    {
+      "part": "exhaustive",
+      "cpu_seconds": 13.431252960999998,
+      "wall_seconds": 13.438402467999992,
+      "peak_rss_kib": 103728,
+      "details": {
+        "cases": 14,
+        "action_outcome_pairs": 71428,
+        "refinement_evaluations": 205074,
+        "truncated_quadratic_mismatches": 9260,
+        "random_completion_actions": 91,
+        "elimination_max_bits": 15
+      }
+    },
+    {
+      "part": "extended",
+      "cpu_seconds": 6.177768665000002,
+      "wall_seconds": 6.18005757200001,
+      "peak_rss_kib": 116304,
+      "details": {
+        "cases": 6,
+        "max_n": 6,
+        "largest_menu": 4683,
+        "exact_certificate_rows": 299,
+        "definition_samples": 72,
+        "elimination_max_bits": 7
+      }
+    },
+    {
+      "part": "fiber",
+      "cpu_seconds": 0.004960502999999505,
+      "wall_seconds": 0.00496202900001208,
+      "peak_rss_kib": 116304,
+      "details": {
+        "actions": 13,
+        "fiber_rank": 6,
+        "witness_laws": 2,
+        "price_grid": 21,
+        "parameter_grid": 31
+      }
+    },
+    {
+      "part": "parity",
+      "cpu_seconds": 1.228518932,
+      "wall_seconds": 1.22889939800001,
+      "peak_rss_kib": 116304,
+      "details": {
+        "cases": 7,
+        "largest_n": 9,
+        "largest_outcome_count": 511,
+        "full_menu_cases": 4,
+        "full_menu_max_n": 6
+      }
+    },
+    {
+      "part": "decoding",
+      "cpu_seconds": 2.5561818539999983,
+      "wall_seconds": 2.5573078840000107,
+      "peak_rss_kib": 116304,
+      "details": {
+        "exhaustive_optimum_comparisons": 168,
+        "larger_returned_action_checks": 6,
+        "max_n": 8
+      }
+    }
+  ],
+  "measured_cpu_seconds": 23.398682915,
+  "peak_rss_kib": 116304
+}

@@ -1,0 +1,7 @@
+n,b,actions,exact_certificate_rows,exact_certificate_rank,predicted_rank,modular_prime,max_degree,elimination_max_bits,definition_samples,reference_net_value
+6,1,720,19,19,19,1000000007,2,7,12,169/240
+6,2,3690,40,40,40,1000000007,3,7,12,169/240
+6,3,4550,55,55,55,1000000007,4,7,12,169/240
+6,4,4670,61,61,61,1000000007,5,6,12,169/240
+6,5,4682,62,62,62,1000000007,6,7,12,169/240
+6,6,4683,62,62,62,1000000007,6,7,12,169/240
