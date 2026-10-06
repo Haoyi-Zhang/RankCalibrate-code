@@ -374,6 +374,91 @@ class ExactUnits(unittest.TestCase):
             decode(n, b, report, lambda _t, _s: F(0))
         self.assertEqual(validator.call_count, 1)
 
+    def test_block_reward_probes_only_transition_moments(self):
+        report = moments(reference_distribution(4), 4, 3)
+
+        class NoIterationDict(dict):
+            def __iter__(self):
+                raise AssertionError("a transition must not traverse the report")
+
+        counted = NoIterationDict(report)
+        expected = block_reward(1, 6, report)
+        self.assertEqual(
+            ranking_module._block_reward_validated(1, 6, counted), expected
+        )
+        counted.pop(7)
+        with self.assertRaisesRegex(ValueError, "missing masks"):
+            ranking_module._block_reward_validated(1, 6, counted)
+
+    def test_decoder_never_rescans_report_inside_transitions(self):
+        report = moments(reference_distribution(4), 4, 3)
+
+        class CountedDict(dict):
+            scans = 0
+
+            def __iter__(self):
+                self.scans += 1
+                return super().__iter__()
+
+        counted = CountedDict(report)
+        fee = lambda _t, _s: F(0)
+        expected = decode(4, 2, report, fee)
+        with mock.patch.object(
+            ranking_module, "_validated_moments", return_value=counted
+        ):
+            self.assertEqual(decode(4, 2, report, fee), expected)
+        # One traversal checks out-of-domain masks before the DP starts.
+        self.assertEqual(counted.scans, 1)
+
+    def test_decoder_keeps_two_mask_predecessors_per_state(self):
+        n = 4
+        report = moments(reference_distribution(n), n, n)
+        original = ranking_module.validate_action
+        audited = []
+
+        def audit_parent_storage(action, size):
+            frame = sys._getframe(1)
+            if frame.f_code is ranking_module.decode.__code__:
+                parents = frame.f_locals["parent"]
+                self.assertEqual(len(parents), (1 << n) - 1)
+                for state, (prefix, block) in parents.items():
+                    self.assertIsInstance(prefix, int)
+                    self.assertIsInstance(block, int)
+                    self.assertEqual(prefix & block, 0)
+                    self.assertEqual(prefix | block, state)
+                audited.append(len(parents))
+            original(action, size)
+
+        with mock.patch.object(ranking_module, "validate_action", audit_parent_storage):
+            loss, action, _transitions = decode(n, n, report, lambda _t, _s: F(0))
+        self.assertEqual(audited, [(1 << n) - 1])
+        self.assertEqual(loss, 0)
+        self.assertEqual(action, (tuple(range(n)),))
+
+    def test_sharpness_feature_is_sufficient_on_full_two_item_cube(self):
+        feature = {
+            y: (1 + F(int(y & 1 != 0) - int(y & 2 != 0), y.bit_count())) / 2
+            for y in (1, 2, 3)
+        }
+        self.assertEqual(feature, {1: F(1), 2: F(0), 3: F(1, 2)})
+        for y in feature:
+            self.assertEqual(
+                average_precision((0, 1), y) - average_precision((1, 0), y),
+                feature[y] - F(1, 2),
+            )
+        for denominator in (4, 8, 16, 32, 64, 128, 256, 512):
+            t = F(1, denominator)
+            law = [F(1, 2) + t, F(1, 2) - t, F(0)]
+            mean = sum((law[y - 1] * feature[y] for y in feature), F(0))
+            report = F(1, 2) - t
+            self.assertEqual((report - mean) ** 2, 4 * t**2)
+            self.assertLess(report, F(1, 2))
+            regret = sum(
+                (law[y - 1] * (average_precision((0, 1), y)
+                 - average_precision((1, 0), y)) for y in feature), F(0)
+            )
+            self.assertEqual(regret, t)
+
 
 class MomentInversionTests(unittest.TestCase):
     def test_full_moment_inversion(self):

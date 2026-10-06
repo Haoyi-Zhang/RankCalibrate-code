@@ -156,6 +156,11 @@ def extended_geometry(out):
         sample_indices = sorted({0, len(actions) // 2, len(actions) - 1})
         for index, action in enumerate(actions):
             coefficients = newton_coefficients(action, n)
+            coefficient_bound = (
+                F(n) if b == 1 else n * (1 + F(2 * (2**b - 1), b))
+            )
+            assert coefficients[0] == 0 and sum(coefficients) == n
+            assert sum(map(abs, coefficients), F(0)) <= coefficient_bound
             contrast = [
                 value - reference_value
                 for value, reference_value in zip(coefficients, reference_coefficients)
@@ -226,6 +231,7 @@ def extended_geometry(out):
         cases=len(rows),
         max_n=n,
         largest_menu=max(row['actions'] for row in rows),
+        coefficient_bound_checks=sum(row['actions'] for row in rows),
         exact_certificate_rows=sum(row['exact_certificate_rows'] for row in rows),
         definition_samples=definition_samples,
         elimination_max_bits=max(row['elimination_max_bits'] for row in rows),

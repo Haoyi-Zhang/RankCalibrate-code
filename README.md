@@ -11,7 +11,7 @@ python -m unittest discover -s tests -v
 python verify.py
 ```
 
-The location-independent suite contains **34 tests**. It covers mathematical identities, malformed and inexact-input rejection, relabeling equivariance, monotonicity under block merging, contrast reconstruction, the active-face rank certificate, exact round trips, single-pass report validation, bibliography and proof-dependency ledgers, deterministic-output comparison, and deliberate audit-failure cases. The verifier reruns the tests and regenerates the scientific CSV/JSON outputs under `results/` with one worker. Do not use `python -O`: the runner rejects optimized execution because scientific assertions must remain active. Timing and memory are observations, not reproduction targets.
+The location-independent suite contains **38 tests**. It covers mathematical identities, malformed and inexact-input rejection, relabeling equivariance, monotonicity under block merging, contrast reconstruction, the active-face rank certificate, exact round trips, single-pass report validation, transition-local moment access, two-mask predecessor storage, bibliography and proof-dependency ledgers, deterministic-output comparison, and deliberate audit-failure cases. The verifier reruns the tests and regenerates the scientific CSV/JSON outputs under `results/` with one worker. Do not use `python -O`: the runner rejects optimized execution because scientific assertions must remain active. Timing and memory are observations, not reproduction targets.
 
 For bounded or resumable checks:
 
@@ -39,7 +39,7 @@ The comparator uses an explicit manifest of **25 regenerable scientific files** 
 
 The exhaustive suite covers all 14 `(n,b)` cases with `2 <= n <= 5` and every block cap: 71,428 action–outcome entries and 205,074 complete-refinement AP evaluations. It checks the oracle definition against alternative evaluations, the Boolean polynomial against inversion, the explicit contrast basis and exact rank, the reference Bayes tie, and coefficient bounds. Nested caps repeat actions; these are not independent samples.
 
-The extended geometry suite covers all six caps at `n=6`, with menus up to **4,683 actions**. For every action it checks the predicted degree and linear constraints. Modular elimination over a fixed prime selects candidate independent rows; exact rational elimination then certifies a 299-row basis across the six cases. The modular step is only row selection, not the final rank certificate. Twelve definition-level action/outcome samples per cap independently compare the implementation with direct relevance-aware refinement.
+The extended geometry suite covers all six caps at `n=6`, with menus up to **4,683 actions**. For every action it checks the predicted degree, linear constraints, zero constant coefficient, all-relevant numerator, and numerator coefficient bound: 22,995 coefficient-bound checks across the six caps. Modular elimination over a fixed prime selects candidate independent rows; exact rational elimination then certifies a 299-row basis across the six cases. The modular step is only row selection, not the final rank certificate. Twelve definition-level action/outcome samples per cap independently compare the implementation with direct relevance-aware refinement.
 
 The three-item fiber certificate covers all 13 actions, exact feasible endpoints, affine dominance over the entire parameter rectangle, and two full-support witness laws. The parity construction checks normalized moments through `b=8`; complete action menus are enumerated only through `b=5` (`n=6`). Decoder checks contain 168 exhaustive optimum comparisons and six larger returned-action risk/transition checks through `n=8`; the latter are not brute-force optimum comparisons.
 
@@ -53,7 +53,7 @@ The current audit covers **65 cited scholarly works**: 61 primary publications a
 
 ## File roles
 
-`ranking.py` contains validated exact definitions, ordered-partition enumeration, harmonic/Newton coefficients, rational rank, explicit contrast features, reference prices, the subset decoder, and normalized-moment inversion. Public scientific inputs reject binary floating-point and Boolean values rather than silently converting them; use integers, `Fraction`, exact decimal/rational strings, or another exact value accepted by `Fraction`. `verify.py` orchestrates the five finite campaigns, and `compare_results.py` detects deterministic evidence drift. `tests/` contains the 34 tests. `fixtures/fiber.json` is an exact analytic fixture, not sampled or fitted data.
+`ranking.py` contains validated exact definitions, ordered-partition enumeration, harmonic/Newton coefficients, rational rank, explicit contrast features, reference prices, the subset decoder, and normalized-moment inversion. Public scientific inputs reject binary floating-point and Boolean values rather than silently converting them; use integers, `Fraction`, exact decimal/rational strings, or another exact value accepted by `Fraction`. `verify.py` orchestrates the five finite campaigns, and `compare_results.py` detects deterministic evidence drift. `tests/` contains the 38 tests. `fixtures/fiber.json` is an exact analytic fixture, not sampled or fitted data.
 
 `claim_evidence_ledger.csv` maps every material manuscript claim to theorem/lemma locations, proof or checker, exact output, maturity, scope, and latest recheck. `external_resources.csv` records the 65 scholarly sources and two official venue/style resources, including attribution and integration boundaries. `proof_dependency_audit.csv` prevents an imported theorem from being mistaken for a locally proved result. No external implementation or dataset is imported.
 
@@ -64,6 +64,14 @@ The current audit covers **65 cited scholarly works**: 61 primary publications a
 Code items are indexed `0,...,n-1`; the article uses `1,...,n`. An outcome is an integer mask `1,...,2**n-1`, with bit `i` marking item `i` relevant. In the article's printed coordinate order, `(100)` has mask 1. The all-zero outcome is excluded. A block is an unordered tuple of item indices; an action is a tuple of blocks in precedence order. Scientific rational values are serialized as reduced fraction strings; decimal columns are display conversions only.
 
 The executable decoder accepts position-and-size additive fees, a subclass of the article's set-dependent additive-fee theorem. Its state count is exponential in `n`; no polynomial-time inference or bit-complexity claim is made. Convex dimension is exact for the stated reference schedule and for a common surrogate over all admissible fees when the link may depend on the fee; it is not claimed for every fixed uniform pair fee. Moment-fiber counterexamples concern insufficient optimal mean reports, not every conceivable convex surrogate. Random completion is not oracle resolution.
+
+The decoder validates and copies the moment report once. Each transition then probes only its required masks; it does not traverse the full report. Predecessors hold two integer subset masks per state, and item tuples are constructed only when backtracking the returned action. These conventions implement the article's storage bound in numbers, not bits.
+
+The retained `results/resources*.json` files describe historical host runs and their test counts, not a measurement of the current source. Their timings are not updated by a prose or code revision. Scientific result files remain the deterministic comparison targets.
+
+## Automated exact checks
+
+For the flat standalone artifact repository, `.github/workflows/scientific-checks.yml` runs on pushes to `main`, pull requests, and manual dispatch. It retains the material-integrity gate, executes the full verifier, and compares all 25 scientific files. The Ubuntu 24.04/Python 3.12 scientific step has a 480-second whole-run wall deadline, a 450-second per-process CPU limit, a 2 GiB virtual-memory limit, and bounded file size. Raw logs and generated outputs are uploaded even when a gate fails. Workflow configuration alone is not evidence that a hosted run has succeeded.
 
 ## License and attribution
 

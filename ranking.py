@@ -311,7 +311,9 @@ def _block_reward_validated(prefix: int, block: int, values: Mapping[int, F]) ->
         for term in submasks(block):
             required.add(term)
             required.update(term | 1 << i for i in ids)
-    missing = sorted(required - set(values))
+    # Probe just this transition's masks. Copying all report keys here adds
+    # an O(m_d) traversal to every edge of the subset graph.
+    missing = sorted(term for term in required if term not in values)
     if missing:
         raise ValueError(f"moment report is missing masks {missing}")
     value = sum(
@@ -328,7 +330,7 @@ def _block_reward_validated(prefix: int, block: int, values: Mapping[int, F]) ->
 
 
 def block_reward(prefix: int, block: int, mu: Mapping[int, F]) -> F:
-    """Expected numerator contribution for one prefix/block transition."""
+    """Expected normalized AP utility contribution of one block transition."""
     return _block_reward_validated(prefix, block, _validated_moments(mu))
 
 
@@ -345,7 +347,7 @@ def decode(n: int, b: int, mu: Mapping[int, F], fee: Fee) -> tuple[F, Action, in
     required = {
         term for term in range(1, 1 << n) if term.bit_count() <= degree
     }
-    missing = sorted(required - set(values))
+    missing = sorted(term for term in required if term not in values)
     if missing:
         raise ValueError(
             f"decoder requires every normalized moment through degree {degree}; "
@@ -356,7 +358,9 @@ def decode(n: int, b: int, mu: Mapping[int, F], fee: Fee) -> tuple[F, Action, in
 
     full = (1 << n) - 1
     best: list[F | None] = [None] * (1 << n)
-    parent: dict[int, tuple[int, tuple[int, ...]]] = {}
+    # One prefix mask and one block mask per state, rather than a tuple of
+    # up to b item indices per predecessor: O(2**n) stored numbers.
+    parent: dict[int, tuple[int, int]] = {}
     best[0] = F(0)
     transitions = 0
     for prefix in range(1 << n):
@@ -375,7 +379,7 @@ def decode(n: int, b: int, mu: Mapping[int, F], fee: Fee) -> tuple[F, Action, in
                 transitions += 1
                 if best[nxt] is None or candidate > best[nxt]:
                     best[nxt] = candidate
-                    parent[nxt] = (prefix, ids)
+                    parent[nxt] = (prefix, block)
     if best[full] is None:
         raise RuntimeError("subset decoder failed to reach the full set")
     action: list[tuple[int, ...]] = []
@@ -383,8 +387,8 @@ def decode(n: int, b: int, mu: Mapping[int, F], fee: Fee) -> tuple[F, Action, in
     while position:
         if position not in parent:
             raise RuntimeError(f"subset decoder has no parent for state {position}")
-        previous, ids = parent[position]
-        action.append(ids)
+        previous, block = parent[position]
+        action.append(tuple(i for i in range(n) if block >> i & 1))
         position = previous
     action.reverse()
     result = tuple(action)
