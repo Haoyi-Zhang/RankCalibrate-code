@@ -457,17 +457,18 @@ def law_from_full_moments(mu: Mapping[int, F], n: int) -> list[F]:
     values = _validated_moments(mu)
     if set(values) != set(range(1, full + 1)):
         raise ValueError("every nonempty normalized moment is required")
-    probabilities: list[F] = []
-    for support in range(1, full + 1):
-        value = sum(
-            (
-                (-1) ** (term.bit_count() - support.bit_count()) * values[term]
-                for term in range(1, full + 1)
-                if term & support == support
-            ),
-            F(0),
-        )
-        probabilities.append(support.bit_count() * value)
+    # Upper Boolean Mobius inversion: subtract each bit-present partner.
+    # Mask zero is only a working slot; it cannot feed a nonempty output.
+    weights = [F(0)] + [values[mask] for mask in range(1, full + 1)]
+    for i in range(n):
+        bit = 1 << i
+        for mask in range(full + 1):
+            if not mask & bit:
+                weights[mask] -= weights[mask | bit]
+    probabilities = [
+        support.bit_count() * weights[support]
+        for support in range(1, full + 1)
+    ]
     if min(probabilities) < 0 or sum(probabilities) != 1:
         raise ValueError("normalized moments do not define a probability law")
     return probabilities
