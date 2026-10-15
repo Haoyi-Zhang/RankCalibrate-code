@@ -77,7 +77,7 @@ For the flat standalone artifact repository, `.github/workflows/scientific-check
 
 ## License and attribution
 
-The MIT license applies to the original Python code, tests, analytic fixtures, and generated numeric tables. It does not license the accompanying article. No scholarly PDF, external baseline implementation, dataset, or publisher style file is included in this standalone repository. External resources were not modified to improve a comparison.
+The MIT license applies to the original Python code, tests, analytic fixtures, and generated numeric tables. It does not license the accompanying article. No third-party scholarly PDF, external baseline implementation, dataset, or publisher style file is included in this standalone repository. External resources were not modified to improve a comparison.
 
 ## Optional vector figures
 
@@ -86,10 +86,20 @@ and generate the PDF figures:
 
 ```sh
 python -m pip install "matplotlib==3.10.7" "fonttools==4.66.1"
-python -B scripts/plot_figures.py
+python -B scripts/plot_retained.py --output-dir reproduced-plots
 ```
 
-Computer Modern is supplied by Matplotlib. The existing Unicode mapping keeps the PDF text aligned with its glyphs; the renderer also copies the retained plot tables to figures/.
+Use a fresh output directory. The isolated entry reads the retained tables in
+`results/` and writes only to the requested directory, without changing retained
+figures or a sibling paper. It supports `--input-dir PATH` and `--font-dir PATH`.
+Computer Modern is supplied by Matplotlib. The existing Unicode mapping keeps
+the PDF text aligned with its glyphs. The original drawing module
+`scripts/plot_figures.py` remains a dependency of this entry; invoking that module
+directly writes to `figures/` instead.
+
+`python -B -S scripts/test_plot_sources.py -v` checks all retained fiber and fee
+coordinates and the protected output paths without plotting dependencies or PDF
+rendering.
 
 This optional rendering step is separate from the scientific reproduction
 commands and works without a sibling paper directory.
