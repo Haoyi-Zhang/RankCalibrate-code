@@ -16,6 +16,21 @@ from reference_audit import audit_references, parse_bibtex  # noqa: E402
 
 
 class ReferenceAuditTests(unittest.TestCase):
+    def test_consistent_wrong_abstain_identifier_is_rejected(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            directory = Path(temporary)
+            names = ('bibliography.bib', 'reference_audit.csv', 'external_resources.csv')
+            for name in names:
+                shutil.copyfile(ROOT / name, directory / name)
+            for name in names[1:]:
+                path = directory / name
+                text = path.read_text(encoding='utf-8')
+                correct = '10.1214/17-EJS1388'
+                self.assertIn(correct, text)
+                path.write_text(text.replace(correct, '10.1214/17-EJS1386'), encoding='utf-8')
+            with self.assertRaisesRegex(ValueError, 'abstain-option identity mismatch'):
+                audit_references(*(directory / name for name in names))
+
     def test_consistent_wrong_smoothap_identifier_is_rejected(self):
         with tempfile.TemporaryDirectory() as temporary:
             directory = Path(temporary)

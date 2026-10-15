@@ -222,6 +222,10 @@ def audit_references(
             canonical = 'https://doi.org/10.1007/978-3-030-58545-7_39'
             if row['persistent_id'] != canonical or row['primary_url'] != canonical:
                 raise ValueError('brown2020: official Smooth-AP identity mismatch')
+        if key == 'ramaswamy2018reject':
+            canonical = 'https://doi.org/10.1214/17-EJS1388'
+            if row['persistent_id'] != canonical or row['primary_url'] != canonical:
+                raise ValueError('ramaswamy2018reject: official abstain-option identity mismatch')
         if not row['primary_url'].startswith('https://'):
             raise ValueError(f'{key}: primary URL must use https')
         if row['source_tier'] not in allowed_tiers:
