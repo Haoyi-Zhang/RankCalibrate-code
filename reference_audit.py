@@ -218,6 +218,10 @@ def audit_references(
                 )
         if row['primary_url'] != resources[key]:
             raise ValueError(f'{key}: primary URL differs from external_resources.csv')
+        if key == 'brown2020':
+            canonical = 'https://doi.org/10.1007/978-3-030-58545-7_39'
+            if row['persistent_id'] != canonical or row['primary_url'] != canonical:
+                raise ValueError('brown2020: official Smooth-AP identity mismatch')
         if not row['primary_url'].startswith('https://'):
             raise ValueError(f'{key}: primary URL must use https')
         if row['source_tier'] not in allowed_tiers:
